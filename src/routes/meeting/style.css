@@ -13,6 +13,10 @@ p.small {
 	margin-bottom: 16px;
 }
 
+.times {
+	margin-bottom: 232px;
+}
+
 .time label {
 	display: block;
 	padding: 14px 16px;
@@ -66,7 +70,7 @@ p.small {
 	font-size: 20px;
 	line-height: 28px;
 	padding: 0 16px;
-	margin-bottom: 16px;
+	margin-bottom: 8px;
 }
 
 .panel input[type='email']:focus {
@@ -84,4 +88,21 @@ p.small {
 	font-size: 20px;
 	line-height: 28px;
 	font-weight: bold;
+	margin-top: 16px;
+}
+
+.panel input[type='submit']:disabled {
+	background: #919191;
+	box-shadow: none;
+}
+
+.panel h3 {
+	text-align: center;
+	margin: 24px 0;
+}
+
+.errorLabel {
+	font-size: 14px;
+	line-height: 20px;
+	color: #D25858;
 }

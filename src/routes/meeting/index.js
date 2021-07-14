@@ -24,7 +24,12 @@ const Meeting = ({ code }) => {
 			if (response.ok) {
 				let data = await response.json()
 				// setInviter(data.initiator.fullName)
-				setTimes(data.proposedSlots)
+				let sortedSlots = data.proposedSlots.sort(function (a, b) {
+					// Turn your strings into dates, and then subtract them
+					// to get a value that is either negative, positive, or zero.
+					return new Date(a.startDateTime) - new Date(b.startDateTime);
+				});
+				setTimes(sortedSlots)
 				setInviter(data.initiator.fullName)
 			} else {
 				console.log('Meeting load error')
@@ -137,15 +142,15 @@ const Meeting = ({ code }) => {
 				</div>
 				}
 				{loadError === 404 && <div className="load-error">
-					This meeting does not exist
+					This meeting does not exist or has expired.
 				</div>
 				}
 				{loadError === 410 && <div className="load-error">
-					This meeting has already been accepted
+					Time for this meeting has already been confirmed.
 				</div>
 				}
-				{times && <div className="times">
-					<p><strong>{inviter}</strong> would like to find time for a meeting with you. Do any of these work?</p>
+				{times && <div class={style.times}>
+					<p><strong>{inviter}</strong> would like to find time for a meeting. Select the time that works best for you.</p>
 					<p class={style.small}>All times are shown in your timezone.</p>
 					{times.map((time, index) => (
 						<div class={style.time}>
@@ -162,16 +167,16 @@ const Meeting = ({ code }) => {
 							!postSuccess && !postError &&
 							<>
 								<div class="input-block">
-									<label htmlFor="email">Email to receive meeting invite</label>
+									<label htmlFor="email">Which email should Sama send the invite to?</label>
 									<input id="email" type="email" value={email} onInput={onEmailInput} onBlur={checkEmailInput} placeholder="your@email.com" />
-									{emailError && <p className="error">Please enter a correct email</p>}
+									{emailError && <p class={style.errorLabel}>Please enter a correct email</p>}
 								</div>
-								<input type="submit" value="Accept" disabled={email === '' || emailError} onClick={onSubmit} />
+								<input type="submit" value="Confirm" disabled={email === '' || emailError} onClick={onSubmit} />
 							</>
 						}
 						{
 							postSuccess &&
-							<h3>Meeting accepted</h3>
+							<h3>Time confirmed</h3>
 						}
 						{
 							postError &&
