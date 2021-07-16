@@ -1,11 +1,11 @@
 {
-  "name": "sama-web",
-  "short_name": "sama-web",
+  "name": "Sama",
+  "short_name": "Sama",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#fff",
-  "theme_color": "#673ab8",
+  "background_color": "#FFF8F0",
+  "theme_color": "#D16E54",
   "icons": [
     {
       "src": "/assets/icons/android-chrome-192x192.png",
