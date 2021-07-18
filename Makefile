@@ -22,3 +22,4 @@ deploy:
 	@terraform -chdir=infra/terraform apply -auto-approve
 	@echo "Done..."
 
+release: build deploy
