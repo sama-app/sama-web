@@ -1,0 +1,33 @@
+{
+  applinks: {
+    apps: [],
+    details: [
+      {
+        appID: "TBD.com.meetsama.app",
+        paths: [
+          "/*",
+          "NOT /*/*"
+        ]
+      },
+      {
+        appID: "TBD.com.meetsama.app.dev",
+        paths: [
+          "/*",
+          "NOT /*/*"
+        ]
+      }
+    ]
+  },
+  activitycontinuation: {
+    apps: [
+      "TBD.com.meetsama.app",
+      "TBD.com.meetsama.app.dev"
+    ]
+  },
+  webcredentials: {
+    apps: [
+      "TBD.com.meetsama.app",
+      "TBD.com.meetsama.app.dev"
+    ]
+  }
+}
