@@ -8,7 +8,7 @@ terraform {
 
   backend "s3" {
     bucket = "terraform-sama"
-    key    = "dev/sama-web.tfstate"
+    key    = "dev/sama-web-2.tfstate"
     region = "eu-central-1"
   }
 
