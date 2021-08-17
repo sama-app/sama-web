@@ -1,10 +1,11 @@
-import { groupBy } from 'lodash';
+import { groupBy, omit } from 'lodash';
 import { h, createRef } from 'preact';
 import { useEffect, useState } from "preact/hooks";
 import style from './style.css';
 
 const Meeting = ({ code }) => {
 	const [times, setTimes] = useState(false)
+	const [indexedTimes, setIndexedTimes] = useState(false)
 	const [inviter, setInviter] = useState('Anonymous')
 
 	const [dataStored, setDataStored] = useState(false)
@@ -26,7 +27,7 @@ const Meeting = ({ code }) => {
 	useEffect(async () => {
 		try {
 			let response = await fetch(process.env.PREACT_APP_API + 'meeting/by-code/' + code)
-			console.log(process.env)
+
 			if (response.ok) {
 				let data = await response.json()
 				// setInviter(data.initiator.fullName)
@@ -37,6 +38,7 @@ const Meeting = ({ code }) => {
 					return new Date(a.startDateTime) - new Date(b.startDateTime);
 				});
 				let indexedSlots = sortedSlots.map((slot, index) => { return { ...slot, index } })
+				setIndexedTimes(indexedSlots)
 
 				// chunk into ranges
 				let slotChunks = []
@@ -102,13 +104,13 @@ const Meeting = ({ code }) => {
 	const onSubmit = e => {
 		e.preventDefault();
 		if (email === '' || !isEmailValid(email)) return false;
+		let slot = omit(indexedTimes[selectedTime], 'index')
 
 		postData(process.env.PREACT_APP_API + 'meeting/by-code/' + code + '/confirm', {
-			slot: times[selectedTime],
+			slot,
 			recipientEmail: email
 		})
 			.then(data => {
-				console.log(data)
 				// let json = await data.json()
 				// console.log(json)
 				if (data.status === 200) {
@@ -235,11 +237,11 @@ const Meeting = ({ code }) => {
 					}
 					{
 						postError &&
-						// <h3>Error</h3>
-						<>
-							<h3>Time confirmed</h3>
-							<p class={style.small}>Meeting invite is sent to you on {inviter} behalf.</p>
-						</>
+						<h3>Error</h3>
+						// <>
+						// 	<h3>Time confirmed</h3>
+						// 	<p class={style.small}>Meeting invite is sent to you on {inviter} behalf.</p>
+						// </>
 					}
 				</div>
 			}
