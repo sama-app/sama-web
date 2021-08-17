@@ -1,3 +1,8 @@
+body	 {
+	/* overflow: hidden;
+	-webkit-overflow-scrolling: touch; */
+}
+
 .meeting {
 	padding: 16px;
 }
@@ -14,7 +19,14 @@ p.small {
 }
 
 .times {
-	margin-bottom: 232px;
+	margin-bottom: 200px;
+}
+
+hr {
+	border: 0;
+	border-top: 1px solid #6B5844;
+	margin: 32px 0;
+	opacity: 0.3;
 }
 
 .time label {
@@ -97,8 +109,8 @@ p.small {
 }
 
 .panel h3 {
-	text-align: center;
-	margin: 24px 0;
+	text-align: left;
+	margin: 16px 0 8px 0;
 }
 
 .errorLabel {
