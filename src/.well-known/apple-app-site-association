@@ -1,31 +1,31 @@
 {
-  applinks: {
-    apps: [],
-    details: [
+  "applinks": {
+    "apps": [],
+    "details": [
       {
-        appID: "6QTT2B2N75.com.meetsama.app",
-        paths: [
+        "appID": "6QTT2B2N75.com.meetsama.app",
+        "paths": [
           "/*",
           "NOT /*/*"
         ]
       },
       {
-        appID: "6QTT2B2N75.com.meetsama.app.dev",
-        paths: [
+        "appID": "6QTT2B2N75.com.meetsama.app.dev",
+        "paths": [
           "/*",
           "NOT /*/*"
         ]
       }
     ]
   },
-  activitycontinuation: {
+  "activitycontinuation": {
     apps: [
       "6QTT2B2N75.com.meetsama.app",
       "6QTT2B2N75.com.meetsama.app.dev"
     ]
   },
-  webcredentials: {
-    apps: [
+  "webcredentials": {
+    "apps": [
       "6QTT2B2N75.com.meetsama.app",
       "6QTT2B2N75.com.meetsama.app.dev"
     ]
