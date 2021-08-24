@@ -22,4 +22,12 @@ deploy:
 	@terraform -chdir=infra/terraform apply -auto-approve
 	@echo "Done..."
 
-release: build deploy
+# Only for production deployments
+invalidate-caches:
+ifeq ($(ENV),prod)
+	@echo "Invalidating CloudFront caches..."
+	@aws cloudfront create-invalidation --distribution-id E2AXFGBZJHELAW --paths "/*"
+	@echo "Done..."
+endif
+
+release: build deploy invalidate-caches
