@@ -5,17 +5,18 @@
       ],
       "details":[
          {
-            "appID":"6QTT2B2N75.com.meetsama.app",
-            "paths":[
-               "NOT */*",
-               "*"
-            ]
-         },
-         {
-            "appID":"6QTT2B2N75.com.meetsama.app.dev",
-            "paths":[
-               "NOT */*",
-               "*"
+            "appIDs":[
+               "6QTT2B2N75.com.meetsama.app",
+               "6QTT2B2N75.com.meetsama.app.dev"
+            ],
+            "components":[
+               {
+                  "/": "/*/?*",
+                  "exclude": true
+               },
+               {
+                  "/": "/*"
+               }
             ]
          }
       ]
