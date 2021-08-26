@@ -7,15 +7,15 @@
          {
             "appID":"6QTT2B2N75.com.meetsama.app",
             "paths":[
-               "NOT /*/*",
-               "/*"
+               "NOT */*",
+               "*"
             ]
          },
          {
             "appID":"6QTT2B2N75.com.meetsama.app.dev",
             "paths":[
-               "NOT /*/*",
-               "/*"
+               "NOT */*",
+               "*"
             ]
          }
       ]
