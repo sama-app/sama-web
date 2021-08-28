@@ -16,6 +16,7 @@ const Meeting = ({ code }) => {
 	const [emailError, setEmailError] = useState(false)
 
 	const [loadError, setLoadError] = useState(false)
+	const [postLoading, setPostLoading] = useState(false)
 	const [postSuccess, setPostSuccess] = useState(false)
 	const [postError, setPostError] = useState(false)
 
@@ -104,16 +105,19 @@ const Meeting = ({ code }) => {
 	const onSubmit = e => {
 		e.preventDefault();
 		if (email === '' || !isEmailValid(email)) return false;
+		if (postLoading || postSuccess || postError) return false;
 		let slot = omit(indexedTimes[selectedTime], 'index')
 
+		setPostLoading(true)
 		postData(process.env.PREACT_APP_API + 'meeting/by-code/' + code + '/confirm', {
 			slot,
 			recipientEmail: email
 		})
 			.then(data => {
+				setPostLoading(false)
 				// let json = await data.json()
 				// console.log(json)
-				if (data.status === 200) {
+				if (data.status === 200 || data.status === 410) {
 					setPostSuccess(true)
 				} else {
 					setPostError(true)
@@ -218,7 +222,7 @@ const Meeting = ({ code }) => {
 				selectedTime !== false &&
 				<div class={style.panel}>
 					{
-						!postSuccess && !postError &&
+						!postSuccess && !postError && !postLoading &&
 						<>
 							<div class="input-block">
 								<label htmlFor="email">Which email should Sama send the invite to?</label>
@@ -227,6 +231,10 @@ const Meeting = ({ code }) => {
 							</div>
 							<input type="submit" value="Confirm" disabled={email === '' || emailError} onClick={onSubmit} />
 						</>
+					}
+					{
+						postLoading &&
+						<h3>Confirming…</h3>
 					}
 					{
 						postSuccess &&
