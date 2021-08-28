@@ -2,11 +2,13 @@ import { groupBy, omit } from 'lodash';
 import { h, createRef } from 'preact';
 import { useEffect, useState } from "preact/hooks";
 import style from './style.css';
+import Header from '../../components/header';
 
 const Meeting = ({ code }) => {
 	const [times, setTimes] = useState(false)
 	const [indexedTimes, setIndexedTimes] = useState(false)
 	const [inviter, setInviter] = useState('Anonymous')
+	const [iOSAppLink, setiOSAppLink] = useState(false)
 
 	const [dataStored, setDataStored] = useState(false)
 	const [email, setEmail] = useState(window.localStorage.getItem('sama_email') || "")
@@ -68,6 +70,9 @@ const Meeting = ({ code }) => {
 
 				setTimes(groupedChunks)
 				setInviter(data.initiator.fullName)
+				if (data.appLinks && data.appLinks.iosAppDownloadLink) {
+					setiOSAppLink(data.appLinks.iosAppDownloadLink)
+				}
 			} else {
 				console.log('Meeting load error')
 				setLoadError(response.status)
@@ -179,81 +184,91 @@ const Meeting = ({ code }) => {
 	}
 
 	return (
-		<form class={style.meeting} onSubmit={onSubmit}>
-			<div class="wrap">
-				{!times && loadError === false && <div className="loading">
-					Loading…
-				</div>
-				}
-				{loadError === 500 && <div className="load-error">
-					Couldn't load the meeting.
-				</div>
-				}
-				{loadError === 404 && <div className="load-error">
-					This meeting does not exist or has expired.
-				</div>
-				}
-				{loadError === 410 && <div className="load-error">
-					Time for this meeting has already been confirmed.
-				</div>
-				}
-				{times && <div class={style.times}>
-					<p><strong>{inviter}</strong> would like to find time for a meeting. Select the time that works best for you.</p>
-					<p class={style.small}>All times are shown in your timezone.</p>
-					{Object.keys(times).map((day) => (
-						<>
-							<h3>{day}</h3>
-							{times[day].map((chunk, index) => (
-								<>
-									{index !== 0 && <hr />}
-									{chunk.map((time) => (
-										<div class={style.time}>
-											<input type="radio" name="selectedTime" value={time.index} id={'slot-' + time.index} onClick={selectTime} />
-											<label htmlFor={'slot-' + time.index}>{formatSlot(time)}</label>
-										</div>
-									))}
-								</>
-							))}
-						</>
-					))}
-				</div>}
-			</div>
-			{
-				selectedTime !== false &&
-				<div class={style.panel}>
-					{
-						!postSuccess && !postError && !postLoading &&
-						<>
-							<div class="input-block">
-								<label htmlFor="email">Which email should Sama send the invite to?</label>
-								<input id="email" type="email" value={email} onInput={onEmailInput} onBlur={checkEmailInput} placeholder="your@email.com" ref={inputRef} />
-								{emailError && <p class={style.errorLabel}>Please enter a correct email</p>}
-							</div>
-							<input type="submit" value="Confirm" disabled={email === '' || emailError} onClick={onSubmit} />
-						</>
+		<>
+			<Header />
+			<form class={style.meeting} onSubmit={onSubmit}>
+				<div class="wrap">
+					{!times && loadError === false && <div className="loading">
+						Loading…
+					</div>
 					}
-					{
-						postLoading &&
-						<h3>Confirming…</h3>
+					{loadError === 500 && <div className="load-error">
+						Couldn't load the meeting.
+					</div>
 					}
-					{
-						postSuccess &&
-						<>
-							<h3>Time confirmed</h3>
-							<p class={style.small}>Meeting invite is sent to you on {inviter} behalf.</p>
-						</>
+					{loadError === 404 && <div className="load-error">
+						This meeting does not exist or has expired.
+					</div>
 					}
-					{
-						postError &&
-						<h3>Error</h3>
-						// <>
-						// 	<h3>Time confirmed</h3>
-						// 	<p class={style.small}>Meeting invite is sent to you on {inviter} behalf.</p>
-						// </>
+					{loadError === 410 && <div className="load-error">
+						Time for this meeting has already been confirmed.
+					</div>
 					}
+					{times && <div class={style.times}>
+						<p><strong>{inviter}</strong> would like to find time for a meeting. Select the time that works best for you.</p>
+						<p class={style.small}>All times are shown in your timezone.</p>
+						{
+							iOSAppLink &&
+							<a class={style.appButton} href={iOSAppLink}>
+								<p><strong>Download Sama iOS app</strong> to view in your calendar</p>
+							</a>
+						}
+
+						{Object.keys(times).map((day) => (
+							<>
+								<h3>{day}</h3>
+								{times[day].map((chunk, index) => (
+									<>
+										{index !== 0 && <hr />}
+										{chunk.map((time) => (
+											<div class={style.time}>
+												<input type="radio" name="selectedTime" value={time.index} id={'slot-' + time.index} onClick={selectTime} />
+												<label htmlFor={'slot-' + time.index}>{formatSlot(time)}</label>
+											</div>
+										))}
+									</>
+								))}
+							</>
+						))}
+					</div>}
 				</div>
-			}
-		</form>
+				{
+					selectedTime !== false &&
+					<div class={style.panel}>
+						{
+							!postSuccess && !postError && !postLoading &&
+							<>
+								<div class="input-block">
+									<label htmlFor="email">Which email should Sama send the invite to?</label>
+									<input id="email" type="email" value={email} onInput={onEmailInput} onBlur={checkEmailInput} placeholder="your@email.com" ref={inputRef} />
+									{emailError && <p class={style.errorLabel}>Please enter a correct email</p>}
+								</div>
+								<input type="submit" value="Confirm" disabled={email === '' || emailError} onClick={onSubmit} />
+							</>
+						}
+						{
+							postLoading &&
+							<h3>Confirming…</h3>
+						}
+						{
+							postSuccess &&
+							<>
+								<h3>Time confirmed</h3>
+								<p class={style.small}>Meeting invite is sent to you on {inviter} behalf.</p>
+							</>
+						}
+						{
+							postError &&
+							<h3>Error</h3>
+							// <>
+							// 	<h3>Time confirmed</h3>
+							// 	<p class={style.small}>Meeting invite is sent to you on {inviter} behalf.</p>
+							// </>
+						}
+					</div>
+				}
+			</form>
+		</>
 	);
 }
 
