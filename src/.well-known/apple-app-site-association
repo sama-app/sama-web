@@ -6,8 +6,8 @@
       "details":[
          {
             "appIDs":[
-               "6QTT2B2N75.com.meetsama.app",
-               "6QTT2B2N75.com.meetsama.app.dev"
+               "F299X48S2K.com.meetsama.sama",
+               "F299X48S2K.com.meetsama.sama.dev"
             ],
             "components":[
                {
@@ -23,14 +23,14 @@
    },
    "activitycontinuation":{
       "apps":[
-         "6QTT2B2N75.com.meetsama.app",
-         "6QTT2B2N75.com.meetsama.app.dev"
+         "F299X48S2K.com.meetsama.sama",
+         "F299X48S2K.com.meetsama.sama.dev"
       ]
    },
    "webcredentials":{
       "apps":[
-         "6QTT2B2N75.com.meetsama.app",
-         "6QTT2B2N75.com.meetsama.app.dev"
+         "F299X48S2K.com.meetsama.sama",
+         "F299X48S2K.com.meetsama.sama.dev"
       ]
    }
 }
