@@ -19,4 +19,6 @@ npm run serve
 npm run test
 ```
 
-For detailed explanation on how things work, checkout the [CLI Readme](https://github.com/developit/preact-cli/blob/master/README.md).
+# Licensing
+
+The code is licensed under the Apache License, Version 2.0. See LICENSE for the full license text.
